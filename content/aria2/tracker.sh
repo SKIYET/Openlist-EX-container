@@ -44,6 +44,7 @@ INFO="[${GREEN_FONT_PREFIX}INFO${FONT_COLOR_SUFFIX}]"
 ERROR="[${RED_FONT_PREFIX}ERROR${FONT_COLOR_SUFFIX}]"
 ARIA2_CONF=/data/aria2/aria2.conf
 DOWNLOADER="curl -fsSL --connect-timeout 3 --max-time 3 --retry 2"
+CUSTOM_TRACKER_URL="https://raw.githubusercontent.com/SKIYET/tracker/refs/heads/main/trackers_best.txt"
 NL=$'\n'
 
 DATE_TIME() {
@@ -63,7 +64,7 @@ GET_TRACKERS() {
         echo && echo -e "$(DATE_TIME) ${INFO} Get BT trackers from url(s):${CUSTOM_TRACKER_URL} ..."
         URLS=$(echo ${CUSTOM_TRACKER_URL} | tr "," "$NL")
         for URL in $URLS; do
-            TRACKER+="$(${DOWNLOADER} ${URL} | tr "," "\n")$NL"
+            TRACKER+="$(${DOWNLOADER} ${URL} | tr "," "\n" | sed 's/"//g')$NL"
         done
         TRACKER="$(echo "$TRACKER" | awk NF | sort -u | sed 'H;1h;$!d;x;y/\n/,/' )"
     fi
