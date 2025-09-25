@@ -9,15 +9,15 @@ OS_type="$(uname -m)"
 case "$OS_type" in
 x86_64 | amd64)
   OS_type2='x86_64-linux-musl_static'
-  OS_type3='amd64'
+#  OS_type3='amd64'
   ;;
 aarch64 | arm64)
   OS_type2='aarch64-linux-musl_static'
-  OS_type3='arm64'
+#  OS_type3='arm64'
   ;;
 arm*)
   OS_type2='arm-linux-musleabihf_static'
-  OS_type3='armhf'
+#  OS_type3='armhf'
   ;;
 *)
   echo 'OS type not supported'
@@ -31,6 +31,8 @@ busybox unzip ${DIR_TMP}/qbit*
 install -m 755 ./qbittorrent-nox /usr/bin/qbittorrent-nox
 
 # Install Aria2
-wget -O - https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.36.0_2021.08.22/aria2-1.36.0-static-linux-${OS_type3}.tar.gz | tar -zxf - -C /usr/bin
-
+# wget -O - https://github.com/P3TERX/Aria2-Pro-Core/releases/download/1.36.0_2021.08.22/aria2-1.36.0-static-linux-${OS_type3}.tar.gz | tar -zxf - -C /usr/bin
+wget -P ${DIR_TMP} https://github.com/SKIYET/aria2-static-build/releases/download/continuous/aria2-${OS_type2}.zip
+busybox unzip ${DIR_TMP}/aria2*
+install -m 755 ./aria2c /usr/bin/aria2c
 rm -rf ${DIR_TMP}
